@@ -6,15 +6,70 @@ class Solution(object):
         :rtype: int
         """
         
-        if len(nums) == 0: return nums[0]
+        if len(nums) == 1: return nums[0]
         
         max_product = 0
+        product = 0
+        i = 0
+        prod = [0, 0, 0]
+        first_n = 0
+        last_n = 0
+        negs = 0
         
-        return max_product
+        for ele in nums:
+            if ele == 0:                
+                if prod[1] == 0: prod[1] = 1
+                if negs == 0: 
+                    max_product = max(prod[0], max_product)
+                if negs == 1:
+                    max_product = max(prod[0], prod[2], max_product)
+                elif negs % 2 == 0:
+                    product = max(1, prod[0]) * first_n * prod[1] * last_n * max(1, prod[2])
+                else:
+                    product = max(max(1, prod[0]) * first_n * prod[1], prod[1] * last_n * max(1, prod[2]))                          
+                    
+                max_product = max(product, max_product)
+                i = 0
+                prod = [0, 0, 0]
+                first_n = 0
+                last_n = 0
+                negs = 0
+            elif ele < 0:          
+                negs += 1
+                if negs == 1: 
+                    first_n = ele
+                    i = 2
+                elif negs == 2:        
+                    prod[1] = prod[2]                    
+                    prod[2] = 0
+                else:    
+                    if prod[1] == 0: prod[1] = 1
+                    prod[1] = prod[1] * last_n * max(1, prod[2])
+                    prod[2] = 0
+                    
+                last_n = ele
+            else:
+                if prod[i] == 0: prod[i] = 1
+                prod[i] *= ele
+                
+            
+        if negs == 0: 
+            return max(prod[0], max_product)
+        if negs == 1:
+            return max(prod[0], prod[2], max_product)
+        else:       
+        
+            if negs % 2 == 0:
+                if prod[1] == 0: prod[1] = 1
+                product = max(1, prod[0]) * first_n * prod[1] * last_n * max(1, prod[2])
+            else:
+                if prod[1] == 0: prod[1] = 1
+                product = max(max(1, prod[0]) * first_n * prod[1], prod[1] * last_n * max(1, prod[2]))                          
+                    
+            return max(product, max_product)
         
 
 
 sol = Solution()
 
-print(sol.maxProduct([3,30,34,5,9]))
-print(sol.maxProduct([2,3,-2,4]))
+print(sol.maxProduct([6,3,-10,0,2]))
