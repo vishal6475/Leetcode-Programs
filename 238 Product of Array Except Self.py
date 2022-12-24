@@ -12,6 +12,7 @@ class Solution(object):
         left[0] = nums[0]
         for i in range(1, n):
             left[i] = nums[i] * left[i-1]
+            
         
         right[n-1] = nums[n-1]
         for i in range(n-2, -1, -1):
