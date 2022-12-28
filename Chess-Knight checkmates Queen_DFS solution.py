@@ -4,8 +4,7 @@ class KnightVsKing(object):
     def __init__(self):
         """
         :type capacity: int
-        """
-        
+        """        
         self.checked = [[0 for _ in range(8)] for _ in range(8)]
         self.DFS = list()
                 
@@ -39,8 +38,6 @@ class KnightVsKing(object):
                 self.DFS.append([(x+dx, y+dy), turn])
                 self.checked[x+dx][y+dy] = 1
         
-        #print('DFS:', self.DFS)
-        
 
     def minMoveCheckmate(self, king, bishop, knight):        
         
@@ -57,10 +54,7 @@ class KnightVsKing(object):
             
             cur = self.DFS.pop(0)
             if cur[0][0] == king[0] and cur[0][1] == king[1]:
-                return cur[1]
-            
-            #print()
-            #print('Current:', cur)            
+                return cur[1]          
         
             self.getPossibleMoves(cur[0][0], cur[0][1], cur[1]+1)            
         
