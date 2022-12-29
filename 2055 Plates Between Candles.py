@@ -1,10 +1,9 @@
 class Solution(object):
+    """
     def platesBetweenCandles(self, s, queries):
-        """
-        :type s: str
-        :type queries: List[List[int]]
-        :rtype: List[int]
-        """
+        #:type s: str
+        #:type queries: List[List[int]]
+        #:rtype: List[int]
         
         candles = []
         answers = []
@@ -88,8 +87,66 @@ class Solution(object):
                 
         print('Final:')
         return answers
+    """
+    def platesBetweenCandles(self, s, queries):
+        """
+        :type s: str
+        :type queries: List[List[int]]
+        :rtype: List[int]
+        """
+        
+        n = len(s)
+        plate_count = [0 for _ in range(n)]
+        candle_right = [-1 for _ in range(n)]
+        candle_left = [-1 for _ in range(n)]
+        
+        last = -1
+        for i in range(n):
+            plate_count[i] = plate_count[i-1] + (s[i] == '*')
+            
+            if s[i] == '|':
+                last = i
+            candle_left[i] = last
+        
+        last = -1
+        for i in range(n-1, -1, -1):
+            if s[i] == '|':
+                last = i
+            candle_right[i] = last  
+        
+        for i in range(len(queries)):
+            if queries[i][0] == queries[i][1]:
+                queries[i] = 0                
+            elif candle_right[queries[i][0]] == -1 or candle_left[queries[i][1]] == -1:
+                queries[i] = 0            
+            elif candle_right[queries[i][0]] > candle_left[queries[i][1]]:
+                queries[i] = 0
+            else:
+                count = plate_count[candle_left[queries[i][1]]] - plate_count[candle_right[queries[i][0]]]            
+                queries[i] = count
+            
+        return queries
+        
         
         
 sol = Solution()
 
-print(sol.platesBetweenCandles("**|**|***|*", [[2,5],[5,9],[4,8],[0,1],[9,10]]))
+print(sol.platesBetweenCandles("**|**|***|*", [[2,5],[5,9],[4,8],[0,1],[5,5],[9,10]]))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
