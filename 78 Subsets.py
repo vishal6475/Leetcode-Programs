@@ -5,6 +5,7 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         
+        """ Method 1
         power = [[]]
         subs = []
         rev_index = dict()
@@ -19,6 +20,31 @@ class Solution(object):
                 nxt = cur.copy()
                 nxt.append(nums[i])
                 subs.append(nxt)
+                
+        return power
+        """
+        
+        power = [[]]
+        rev_index = dict()
+        for i in range(len(nums)):
+            power.append([nums[i]])
+            rev_index[nums[i]] = i
+        
+        n = len(nums)
+        start = 1
+        end = n
+        count = 1
+        
+        while count > 0:
+            count = 0
+            for sub in range(start, end+1):            
+                cur = power[sub]
+                for i in range(rev_index[cur[-1]]+1, n):
+                    nxt = cur.copy()
+                    nxt.append(nums[i])
+                    power.append(nxt)
+                    count += 1
+            start, end = end + 1, end + count                
                 
         return power
             
