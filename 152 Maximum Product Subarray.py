@@ -6,6 +6,23 @@ class Solution(object):
         :rtype: int
         """
         
+        maxx, minn = 1, 1
+        max_p = 0
+        
+        for n in nums:
+            if n == 0:
+                maxx, minn = 1, 1
+            else:
+                maxx = max(n*maxx, n*minn)
+                maxx = min(n*maxx, n*minn)
+                max_p = max(max_p, maxx, minn)
+                
+            print(n, minn, maxx, max_p)
+                
+        return max_p
+                
+        
+        """ First approach (not good)
         if len(nums) == 1: return nums[0]
         
         max_product = 0
@@ -67,6 +84,7 @@ class Solution(object):
                 product = max(max(1, prod[0]) * first_n * prod[1], prod[1] * last_n * max(1, prod[2]))                          
                     
             return max(product, max_product)
+        """
         
 
 
