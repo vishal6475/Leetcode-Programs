@@ -6,6 +6,9 @@ class Solution(object):
         :rtype: int
         """
         
+        if len(nums) == 1:
+            return nums[0]
+        
         maxx, minn = 1, 1
         max_p = 0
         
@@ -13,9 +16,8 @@ class Solution(object):
             if n == 0:
                 maxx, minn = 1, 1
             else:
-                maxx = max(n*maxx, n*minn)
-                maxx = min(n*maxx, n*minn)
-                max_p = max(max_p, maxx, minn)
+                maxx, minn = max(n, n*maxx, n*minn), min(n, n*maxx, n*minn)
+                max_p = max(max_p, maxx)
                 
             print(n, minn, maxx, max_p)
                 
@@ -90,4 +92,4 @@ class Solution(object):
 
 sol = Solution()
 
-print(sol.maxProduct([6,3,-10,0,2]))
+print(sol.maxProduct([3, -1, 4]))
